@@ -64,7 +64,7 @@ selectorscut<- c(-.1, .9, 1.1, 2.1, 3.1, 4.1, 5.1, 6.1)
 cem.1 <- matchit(treated ~ year + nominators_to_match + selectors_to_match, 
                  data = highcourts2016clean_cem_subset, method = "cem", 
                  cutpoints = list(year=yearcut, nominators_to_match=nominatorscut, selectors_to_match=selectorscut))
-# 45 of 47 treated units matchd, 1491 control units matched.
+# 45 of 47 treated units matchd.
 cem.1$nn
 
 #the cem.1 data is only the years and countries that matched. 
@@ -297,8 +297,8 @@ table(cem.data2016$subclass) #yeep, lots of 999s
 
 #what are my subclasses:
 table(cem.data2016$subclass)
-##strata 130, 264, 462, 493 have only two observations in them
-# the others 12 28 42 52 62 72 95 129 154 159 167 172 180 194 195 208 213 221 222 235 241 273 279 470 481 493
+##strata 130, 264, 471  have only two observations in them
+# the others 12 28 42 52 62 72 95 129 154 159 167 172 180 194 195 208 213 221 222 235 241 273 279 479 490 502
 #have multiple
 
 
@@ -337,7 +337,7 @@ for (i in 1:length(classes)){
 ##So that created a new column for each subclass that is filled with ones for each treated and matched-control unit
 ##need to combine the columns so that I have a variable for whether this observation was matched at all
 #row sum across all the genetic matching dummies to create "genetic_two_stage_matched_imp1", an indicator for whether a country was matched in the second stage for the first imputed data set.
-cem.data2016$genetic_two_stage_matched_imp1 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp493))
+cem.data2016$genetic_two_stage_matched_imp1 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp502))
 
 table(cem.data2016$genetic_two_stage_matched_imp1)
 table(cem.data2016$genetic_two_stage_matched_imp1, cem.data2016$treated)
@@ -382,7 +382,7 @@ for (i in 1:length(classes)){
 
 ##So that created a new column for each subclass that is filled with ones for each treated and matched contro unit
 ##need to combine the columns
-cem.data2016$genetic_two_stage_matched_imp2 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp493))
+cem.data2016$genetic_two_stage_matched_imp2 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp502))
 
 
 table(cem.data2016$genetic_two_stage_matched_imp2)
@@ -418,7 +418,7 @@ for (i in 1:length(classes)){
 
 ##So that created a new column for each subclass that is filled with ones for each treated and matched contro unit
 ##need to combine the columns
-cem.data2016$genetic_two_stage_matched_imp3 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp493))
+cem.data2016$genetic_two_stage_matched_imp3 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp502))
 
 
 table(cem.data2016$genetic_two_stage_matched_imp3)
@@ -454,7 +454,7 @@ for (i in 1:length(classes)){
 
 ##So that created a new column for each subclass that is filled with ones for each treated and matched contro unit
 ##need to combine the columns
-cem.data2016$genetic_two_stage_matched_imp4 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp493))
+cem.data2016$genetic_two_stage_matched_imp4 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp502))
 
 
 table(cem.data2016$genetic_two_stage_matched_imp4)
@@ -491,7 +491,7 @@ for (i in 1:length(classes)){
 ##So that created a new column for each subclass that is filled with ones for each treated and matched contro unit
 ##need to combine the columns
 
-cem.data2016$genetic_two_stage_matched_imp5 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp493))
+cem.data2016$genetic_two_stage_matched_imp5 <- rowSums(subset(cem.data2016, select=genetic_imp12:genetic_imp502))
 
 
 table(cem.data2016$genetic_two_stage_matched_imp5)
