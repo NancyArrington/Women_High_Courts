@@ -2,7 +2,6 @@
 *Arrington, Bass, Staton, Glynn: women and high courts
 *Cleaning, reshaping, and adding matching variables to RedCap Export
 
-
 *starting with download from RedCap, raw .csv
 insheet using "/Users/nancyarrington/Dropbox/VDem_Nancy_shared/Women_and_High_Courts_Project/data_files/August_2016_high_courts_recreation/VDemRedcapExportAug2016.csv", comma
 
@@ -264,16 +263,16 @@ save vdem_wide, replace
 **cleaning up unnecesary variables at this point
 drop coder_name_other type_coder process_type other_tranlsator_name translator_name constitutional_event constitutional_event_other state_other translation constitution_complete dublicate_state_year dup_double_check identifier_dup
 
-*changing from country_event to country_year
+*nancy aug 28 edit: previously I had just used tsfill which fills in from the first to last obsevation. What I really want is first to present.
+*first need to drop Spain 1946a. It is a secondary event that has little information and is preventing the "fill" option from working
+
+drop if record_id=="Spain 1946a"
 
 xtset state year, y
-tsfill
+tsfill, full
 save vdem_wide, replace
 
-
-
 **cleaning and filling in
-
 
 **filling in state_name
 bysort state (year): replace state_name = state_name[_n-1] if state_name == "" & state==state[_n-1]
@@ -502,7 +501,20 @@ browse if year_COW_dup>0
 replace COWcode=345 if state_name=="Yugoslavia"
 replace COWcode=347 if state_name=="Kosovo"
 
+*nancy aug 28 note: becasue of extra rows lots of duplicates where the COWcode is .
+**lots of empty rows
+drop if number_nominators_filled==. & state_name=="" & redcap_event_name=="" &COWcode==.
+drop year_COW_dup
+duplicates tag year COWcode, gen(year_COW_dup)
+browse if year_COW_dup>0
+drop if inlist(record_id, "_1990","_1991", "_1992" ,"_1993" ,"_1994" ,"_1995", "_1996", "_1997")
+drop if inlist(record_id, "_2001", "_2002", "_2003", "_2004", "_2005", "_2006", "_2007")
+drop if inlist(record_id, "_2011", "_2012", "_2013", "_2014","_2015", "_1998", "_1999", "_2000" )
+drop if inlist(record_id, "_2008","_2009","_2010")
 
+*lots of Austri-Hungary rows for when it was not a country
+drop if state_name=="Austria-Hungary" & year>= 1990
+drop year_COW_dup
 
 
 merge 1:1 year COWcode using vdem_small_2016.dta
@@ -575,12 +587,6 @@ forvalues i = 1/25 {
    bysort state (year): replace p_filled=0 if p_filled==. & percent_women[_n+`i']==0 
 }
 
-
-**some record ids with out states
-drop if inlist(record_id, "_1990","_1991", "_1992" ,"_1993" ,"_1994" ,"_1995", "_1996", "_1997")
-drop if inlist(record_id, "_2001", "_2002", "_2003", "_2004", "_2005", "_2006", "_2007")
-drop if inlist(record_id, "_2011", "_2012", "_2013", "_2014","_2015", "_1998", "_1999", "_2000" )
-drop if inlist(record_id, "_2008","_2009","_2010")
 
 save women_high_courts_aug_22_2016, replace
 
