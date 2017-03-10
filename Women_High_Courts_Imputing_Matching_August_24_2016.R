@@ -515,3 +515,6 @@ write.csv(matched_countries_august25_2016, file="/Users/nancyarrington/Dropbox/V
 ####Women and High Courts, August 25 data####
 write.dta(cem.data2016, file="/Users/nancyarrington/Dropbox/VDem_Nancy_shared/Women_and_High_Courts_Project/data_files/August_2016_high_courts_recreation/women_high_courts_aug_25_2016.dta")
 
+
+  
+###March 1, 2017, r not opening .dta, opened in stata and saved as a csv here: "/Users/nancyarrington/Dropbox/VDem_Nancy_shared/Women_and_High_Courts_Project/data_files/August_2016_high_courts_recreation/women_high_courts_aug_25_2016.csv"
